@@ -31,6 +31,9 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     fun loadChat(chatId: Long) {
         currentChatId = chatId
         viewModelScope.launch {
+            chatRepository.refreshMessages(chatId)
+        }
+        viewModelScope.launch {
             chatRepository.getChatById(chatId).collect { chatEntity ->
                 _chat.value = chatEntity
             }
